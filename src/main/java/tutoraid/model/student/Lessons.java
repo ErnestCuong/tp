@@ -11,7 +11,7 @@ import tutoraid.model.student.exceptions.DuplicateStudentLessonsException;
 import tutoraid.model.student.exceptions.StudentLessonsNotFoundException;
 
 /**
- * Represents a student's list of progress in TutorAid.
+ * Represents a student's list of lessons in TutorAid.
  */
 public class Lessons {
 

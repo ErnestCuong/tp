@@ -49,6 +49,8 @@ public class DeleteProgressCommand extends DeleteCommand {
         Progress progressToDelete = studentToEdit.deleteLatestProgress();
 
         model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
+        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
+        model.viewList(true);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, progressToDelete, studentToEdit));
     }
