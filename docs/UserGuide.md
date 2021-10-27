@@ -103,11 +103,14 @@ In the example above, `sn/Matthew Judge` tells TutorAid that the third student s
 In this guide, the syntax / format of a command is shown like this:
 
 `edit -s INDEX_NUMBER [sn/STUDENT_NAME] [sp/STUDENT_PHONE] [pn/PARENT_NAME] [pp/PARENT_PHONE]`
+`add -sl s/STUDENT_INDEX... n/LESSON_INDEX...`
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user and can contain spaces.
 * Items in square brackets are optional.
 * Parameters can be in any order.
 * If a parameter is expected only once in the command but if you specify it multiple times, only the last occurrence of the parameter will be taken.
+* `...` signals that multiple parameters of this type can be accepted(separated by a space), but there must be at least one parameter present.
+  e.g. if the format of a command has `s/STUDENT_INDEX...` then both `s/1 2 3` and `s/1` are acceptable inputs, but not `s/ `. 
 * Extraneous parameters for commands that do not take in parameters will be ignored.
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 <hr>
@@ -339,6 +342,36 @@ Format: `edit -l LESSON_INDEX [n/LESSON_NAME] [c/LESSON_CAPACITY] [p/LESSON_PRIC
 Examples:
 * `edit -l c/20 p/80`
 
+### Adding students to lessons: `add -sl`
+
+Adds students to lessons in TutorAid.
+
+Format: `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`
+
+* Adds the students at the specified student indexes to the lessons at the specified lesson indexes.
+- The index refers to the index number shown in the displayed student list and lesson list.
+- The index must be a **positive integer** 1, 2, 3, ...
+
+Examples:
+* `add -sl s/1 2 3 l/1 2`
+
+> :bulb: All of these students must not be attending any of the lessons provided for this command to work.
+
+### Deleting students from lessons: `del -sl`
+
+Deletes students from lessons in TutorAid.
+
+Format: `del -sl s/STUDENT_INDEX... l/LESSON_INDEX...`
+
+* Deletes the students at the specified student indexes from the lessons at the specified lesson indexes.
+- The index refers to the index number shown in the displayed student list and lesson list.
+- The index must be a **positive integer** 1, 2, 3, ...
+
+Examples:
+* `del -sl s/2 3 l/1 2 3`
+
+> :bulb: All of these students must be attending all the lessons provided for this command to work.
+
 ### Locating students or lessons by name: `find -s` / `find -l`
 
 Finds students or lessons whose names contain any of the given keywords. Use `-s` flag to search for students and
@@ -382,6 +415,8 @@ Action | Format, Examples
 **Add lesson** | `add -l n/P6 Maths c/20 p/80 t/Monday 1200-1400`<br>e.g.,`add -l n/P6 Maths c/20 p/80 t/Monday 1200-1400`
 **Delete lesson** | `del -l LESSON_INDEX` <br>e.g.,`del -l 3`
 **Edit lesson** | `edit -l LESSON_INDEX [n/LESSON_NAME] [c/LESSON_CAPACITY] [p/LESSON_PRICE] [t/LESSON_TIMING]`<br>e.g., `edit -l c/20 p/80` 
+**Add students to lessons** | `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`add -sl s/1 2 3 l/1 2`
+**Delete students from lessons** | `del -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`del -sl s/2 3 l/1 2 3`
 **Find student** | `find -s KEYWORD [MORE_KEYWORDS]`<br>e.g., `find -s roy`
 **Find lesson** | `find -l KEYWORD [MORE_KEYWORDS]`<br>e.g., `find -l maths`
 **Exit** | `exit`
