@@ -62,8 +62,8 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
         lessonToRemoveFromStudent.removeStudent(studentToRemoveFromLesson);
         studentToRemoveFromLesson.removeLesson(lessonToRemoveFromStudent);
 
-        model.updateFilteredStudentList(student -> student.equals(studentToRemoveFromLesson));
-        model.updateFilteredLessonList(lesson -> lesson.equals(lessonToRemoveFromStudent));
+        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
+        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, studentToRemoveFromLesson, lessonToRemoveFromStudent));
     }

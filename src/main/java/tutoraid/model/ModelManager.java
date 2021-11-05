@@ -276,15 +276,12 @@ public class ModelManager implements Model {
                 && filteredLessons.equals(other.filteredLessons);
     }
 
-    //=========== Filtered Student List Accessors =============================================================
+    //=========== Student-to-Lesson Links Reconnection =============================================================
 
     /**
      * Reconnects the link between students and lessons when restarting TutorAid.
      */
-    public void reconnectStudentLessonLinksUponRestarting() {
-        updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
-        updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
-
+    private void reconnectStudentLessonLinksUponRestarting() {
         for (Student student : studentBook.getStudentList()) {
             reconnectOneStudentToTheirLesson(student);
         }

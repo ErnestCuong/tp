@@ -67,8 +67,8 @@ public class AddStudentToLessonCommand extends AddCommand {
         lessonToAddToStudent.addStudent(studentToAddToLesson);
         studentToAddToLesson.addLesson(lessonToAddToStudent);
 
-        model.updateFilteredStudentList(student -> student.equals(studentToAddToLesson));
-        model.updateFilteredLessonList(lesson -> lesson.equals(lessonToAddToStudent));
+        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
+        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, studentToAddToLesson, lessonToAddToStudent));
     }
