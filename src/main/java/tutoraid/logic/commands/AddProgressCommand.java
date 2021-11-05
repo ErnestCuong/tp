@@ -1,6 +1,7 @@
 package tutoraid.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static tutoraid.model.Model.PREDICATE_SHOW_ALL_LESSONS;
 
 import java.util.List;
 
@@ -8,8 +9,14 @@ import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
 import tutoraid.model.Model;
+import tutoraid.model.lesson.Lesson;
+import tutoraid.model.student.Lessons;
+import tutoraid.model.student.ParentName;
+import tutoraid.model.student.Phone;
 import tutoraid.model.student.Progress;
+import tutoraid.model.student.ProgressList;
 import tutoraid.model.student.Student;
+import tutoraid.model.student.StudentName;
 
 
 /**
@@ -44,17 +51,22 @@ public class AddProgressCommand extends AddCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Student> lastShownList = model.getFilteredStudentList();
+        model.updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
+        List<Student> lastShownStudentList = model.getFilteredStudentList();
+        List<Lesson> lessonList = model.getFilteredLessonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+        if (targetIndex.getZeroBased() >= lastShownStudentList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
         }
 
-        Student studentToEdit = lastShownList.get(targetIndex.getZeroBased());
+        Student studentToEdit = lastShownStudentList.get(targetIndex.getZeroBased());
+        model.setStudent(studentToEdit, studentToEdit);
+        Lesson.updateStudentLessonLink(lessonList, studentToEdit, studentToEdit);
+
         studentToEdit.addProgress(this.progress);
 
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
         model.viewStudent(studentToEdit);
+        model.updateFilteredLessonList(studentToEdit::hasLesson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, progress, studentToEdit));
     }
