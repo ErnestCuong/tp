@@ -157,10 +157,9 @@ public class ModelManager implements Model {
     public void deleteLessonFromStudents(Lesson lesson) {
         for (Student student : studentBook.getStudentList()) {
             if (student.hasLesson(lesson)) {
-                student.getLessons().deleteLesson(lesson);
+                student.getLessons().removeLesson(lesson);
             }
         }
-        studentBook.refreshStudentBook();
     }
 
     //=========== LessonBook ================================================================================
@@ -214,7 +213,6 @@ public class ModelManager implements Model {
                 lesson.removeStudent(student);
             }
         }
-        lessonBook.refreshLessonBook();
     }
 
     //=========== Filtered Student List Accessors =============================================================
@@ -231,7 +229,6 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredStudentList(Predicate<Student> predicate) {
         requireNonNull(predicate);
-        studentBook.refreshStudentBook();
         filteredStudents.setPredicate(predicate);
     }
 
@@ -249,7 +246,6 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredLessonList(Predicate<Lesson> predicate) {
         requireNonNull(predicate);
-        lessonBook.refreshLessonBook();
         filteredLessons.setPredicate(predicate);
     }
 
