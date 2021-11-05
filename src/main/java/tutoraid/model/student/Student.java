@@ -98,7 +98,7 @@ public class Student {
     }
 
     public void removeLesson(Lesson toQuit) {
-        lessons.deleteLesson(toQuit);
+        lessons.removeLesson(toQuit);
     }
 
     public boolean hasLesson(Lesson lesson) {
