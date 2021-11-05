@@ -65,20 +65,30 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
         }
 
-        Student studentToDeleteFromLesson = lastShownStudentList.get(studentIndex.getZeroBased());
-        Lesson lessonToDeleteFromStudent = lastShownLessonList.get(lessonIndex.getZeroBased());
+        Student studentToRemoveFromLesson = lastShownStudentList.get(studentIndex.getZeroBased());
+        Lesson lessonToRemoveFromStudent = lastShownLessonList.get(lessonIndex.getZeroBased());
 
-        if (!studentToDeleteFromLesson.hasLesson(lessonToDeleteFromStudent)) {
+        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
+        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
+        List<Student> studentList = model.getFilteredStudentList();
+        List<Lesson> lessonList = model.getFilteredLessonList();
+
+        model.setStudent(studentToRemoveFromLesson, studentToRemoveFromLesson);
+        Lesson.updateStudentLessonLink(lessonList, studentToRemoveFromLesson, studentToRemoveFromLesson);
+
+        model.setLesson(lessonToRemoveFromStudent, lessonToRemoveFromStudent);
+        Student.updateStudentLessonLink(studentList, lessonToRemoveFromStudent, lessonToRemoveFromStudent);
+
+        if (!studentToRemoveFromLesson.hasLesson(lessonToRemoveFromStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_NOT_IN_LESSON);
         }
 
-        lessonToDeleteFromStudent.removeStudent(studentToDeleteFromLesson);
-        studentToDeleteFromLesson.removeLesson(lessonToDeleteFromStudent);
+        lessonToRemoveFromStudent.removeStudent(studentToRemoveFromLesson);
+        studentToRemoveFromLesson.removeLesson(lessonToRemoveFromStudent);
 
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
-        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        model.viewList(HIGH);
+        model.updateFilteredStudentList(student -> student.equals(studentToRemoveFromLesson));
+        model.updateFilteredLessonList(lesson -> lesson.equals(lessonToRemoveFromStudent));
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, studentToDeleteFromLesson, lessonToDeleteFromStudent));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, studentToRemoveFromLesson, lessonToRemoveFromStudent));
     }
 }

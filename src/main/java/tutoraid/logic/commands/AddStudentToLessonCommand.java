@@ -69,6 +69,17 @@ public class AddStudentToLessonCommand extends AddCommand {
         Student studentToAddToLesson = lastShownStudentList.get(studentIndex.getZeroBased());
         Lesson lessonToAddToStudent = lastShownLessonList.get(lessonIndex.getZeroBased());
 
+        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
+        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
+        List<Student> studentList = model.getFilteredStudentList();
+        List<Lesson> lessonList = model.getFilteredLessonList();
+
+        model.setStudent(studentToAddToLesson, studentToAddToLesson);
+        Lesson.updateStudentLessonLink(lessonList, studentToAddToLesson, studentToAddToLesson);
+
+        model.setLesson(lessonToAddToStudent, lessonToAddToStudent);
+        Student.updateStudentLessonLink(studentList, lessonToAddToStudent, lessonToAddToStudent);
+
         if (studentToAddToLesson.hasLesson(lessonToAddToStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_ALREADY_ATTEND_LESSON);
         }
@@ -80,9 +91,8 @@ public class AddStudentToLessonCommand extends AddCommand {
         lessonToAddToStudent.addStudent(studentToAddToLesson);
         studentToAddToLesson.addLesson(lessonToAddToStudent);
 
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
-        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        model.viewList(HIGH);
+        model.updateFilteredStudentList(student -> student.equals(studentToAddToLesson));
+        model.updateFilteredLessonList(lesson -> lesson.equals(lessonToAddToStudent));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, studentToAddToLesson, lessonToAddToStudent));
     }
