@@ -3,6 +3,7 @@ package tutoraid.model;
 import static java.util.Objects.requireNonNull;
 import static tutoraid.ui.DetailLevel.HIGH;
 import static tutoraid.ui.DetailLevel.MED;
+import static tutoraid.ui.DetailLevel.LOW;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
@@ -148,7 +149,7 @@ public class ModelManager implements Model {
             UiManager.showFullDetails();
         } else if (detailLevel == MED) {
             UiManager.showMediumDetails();
-        } else {
+        } else if (detailLevel == LOW) {
             UiManager.showMinimalDetails();
         }
     }
