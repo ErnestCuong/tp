@@ -3,13 +3,11 @@ package tutoraid.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static tutoraid.logic.parser.CliSyntax.PREFIX_LESSON;
 import static tutoraid.logic.parser.CliSyntax.PREFIX_STUDENT;
-import static tutoraid.ui.DetailLevel.HIGH;
-
-import java.util.List;
 
 import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
+import tutoraid.logic.commands.util.StudentLessonUtil;
 import tutoraid.model.Model;
 import tutoraid.model.lesson.Lesson;
 import tutoraid.model.student.Student;
@@ -54,30 +52,10 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Student> lastShownStudentList = model.getFilteredStudentList();
-        List<Lesson> lastShownLessonList = model.getFilteredLessonList();
+        Student studentToRemoveFromLesson = StudentLessonUtil.getStudent(model, studentIndex);
+        Lesson lessonToRemoveFromStudent = StudentLessonUtil.getLesson(model, lessonIndex);
 
-        if (studentIndex.getZeroBased() >= lastShownStudentList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
-        }
-
-        if (lessonIndex.getZeroBased() >= lastShownLessonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
-        }
-
-        Student studentToRemoveFromLesson = lastShownStudentList.get(studentIndex.getZeroBased());
-        Lesson lessonToRemoveFromStudent = lastShownLessonList.get(lessonIndex.getZeroBased());
-
-        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
-        List<Student> studentList = model.getFilteredStudentList();
-        List<Lesson> lessonList = model.getFilteredLessonList();
-
-        model.setStudent(studentToRemoveFromLesson, studentToRemoveFromLesson);
-        Lesson.updateStudentLessonLink(lessonList, studentToRemoveFromLesson, studentToRemoveFromLesson);
-
-        model.setLesson(lessonToRemoveFromStudent, lessonToRemoveFromStudent);
-        Student.updateStudentLessonLink(studentList, lessonToRemoveFromStudent, lessonToRemoveFromStudent);
+        StudentLessonUtil.updateStudentAndLessonLinks(model, studentToRemoveFromLesson, lessonToRemoveFromStudent);
 
         if (!studentToRemoveFromLesson.hasLesson(lessonToRemoveFromStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_NOT_IN_LESSON);

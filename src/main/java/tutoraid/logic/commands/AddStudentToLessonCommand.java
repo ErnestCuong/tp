@@ -10,6 +10,7 @@ import java.util.List;
 import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
+import tutoraid.logic.commands.util.StudentLessonUtil;
 import tutoraid.model.Model;
 import tutoraid.model.lesson.Lesson;
 import tutoraid.model.student.Student;
@@ -55,30 +56,10 @@ public class AddStudentToLessonCommand extends AddCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Student> lastShownStudentList = model.getFilteredStudentList();
-        List<Lesson> lastShownLessonList = model.getFilteredLessonList();
+        Student studentToAddToLesson = StudentLessonUtil.getStudent(model, studentIndex);
+        Lesson lessonToAddToStudent = StudentLessonUtil.getLesson(model, lessonIndex);
 
-        if (studentIndex.getZeroBased() >= lastShownStudentList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
-        }
-
-        if (lessonIndex.getZeroBased() >= lastShownLessonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
-        }
-
-        Student studentToAddToLesson = lastShownStudentList.get(studentIndex.getZeroBased());
-        Lesson lessonToAddToStudent = lastShownLessonList.get(lessonIndex.getZeroBased());
-
-        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
-        List<Student> studentList = model.getFilteredStudentList();
-        List<Lesson> lessonList = model.getFilteredLessonList();
-
-        model.setStudent(studentToAddToLesson, studentToAddToLesson);
-        Lesson.updateStudentLessonLink(lessonList, studentToAddToLesson, studentToAddToLesson);
-
-        model.setLesson(lessonToAddToStudent, lessonToAddToStudent);
-        Student.updateStudentLessonLink(studentList, lessonToAddToStudent, lessonToAddToStudent);
+        StudentLessonUtil.updateStudentAndLessonLinks(model, studentToAddToLesson, lessonToAddToStudent);
 
         if (studentToAddToLesson.hasLesson(lessonToAddToStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_ALREADY_ATTEND_LESSON);
