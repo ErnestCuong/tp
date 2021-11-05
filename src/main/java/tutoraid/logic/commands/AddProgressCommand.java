@@ -51,8 +51,10 @@ public class AddProgressCommand extends AddCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
+
         List<Student> lastShownStudentList = model.getFilteredStudentList();
+
+        model.updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
         List<Lesson> lessonList = model.getFilteredLessonList();
 
         if (targetIndex.getZeroBased() >= lastShownStudentList.size()) {
@@ -60,13 +62,11 @@ public class AddProgressCommand extends AddCommand {
         }
 
         Student studentToEdit = lastShownStudentList.get(targetIndex.getZeroBased());
-        model.setStudent(studentToEdit, studentToEdit);
         Lesson.updateStudentLessonLink(lessonList, studentToEdit, studentToEdit);
 
         studentToEdit.addProgress(this.progress);
 
         model.viewStudent(studentToEdit);
-        model.updateFilteredLessonList(studentToEdit::hasLesson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, progress, studentToEdit));
     }
