@@ -7,59 +7,60 @@ import java.util.ArrayList;
 import tutoraid.model.lesson.exceptions.DuplicateStudentInLessonException;
 import tutoraid.model.lesson.exceptions.StudentNotFoundInLessonException;
 import tutoraid.model.student.Student;
+import tutoraid.model.student.StudentName;
 
 /**
- * Represents a Lesson's students in TutorAid.
- * Guarantees: details are present and not null, field values are validated, immutable.
+ * Represents a lesson's list of names of students that attend this lesson
  */
 public class Students {
 
-    public final ArrayList<Student> students;
+    public final ArrayList<StudentName> students;
 
     /**
      * Constructs a {@code Students}.
      *
-     * @param students Valid arraylist of Student objects.
+     * @param students Valid arraylist of StudentName objects.
      */
-    public Students(ArrayList<Student> students) {
+    public Students(ArrayList<StudentName> students) {
         this.students = students;
     }
 
     /**
-     * Checks if this arraylist of students contains a student.
-     *
-     * @param student a Student object to be checked
+     * Checks if this list has the name of a student.
      */
     public boolean hasStudent(Student student) {
         requireNonNull(student);
-        return students.contains(student);
+        return students.contains(student.getStudentName());
     }
 
     /**
-     * Adds a student into this arraylist of students.
+     * Adds the name of a student to this list.
      *
-     * @param student a Student object to be added
-     * @throws DuplicateStudentInLessonException if this arraylist of students already contains the student
+     * @param student the student whose name is to be added
+     * @throws DuplicateStudentInLessonException if this student's name is already in the list
      */
     public void addStudent(Student student) {
         requireNonNull(student);
-        if (students.contains(student)) {
+        StudentName studentNameToAdd = student.getStudentName();
+        if (students.contains(studentNameToAdd)) {
             throw new DuplicateStudentInLessonException();
         }
-        students.add(student);
+        students.add(studentNameToAdd);
     }
 
     /**
-     * Removes a student from this arraylist of students.
+     * Removes the name of a student from this list.
      *
-     * @param student a Student object to be removed
-     * @throws StudentNotFoundInLessonException if this arraylist of students does not have the student
+     * @param student the student whose name is to be removed from this list
+     * @throws StudentNotFoundInLessonException if this student's name is not in the list
      */
     public void removeStudent(Student student) {
         requireNonNull(student);
-        if (!students.remove(student)) {
+        StudentName studentNameToRemove = student.getStudentName();
+        if (!students.contains(studentNameToRemove)) {
             throw new StudentNotFoundInLessonException();
         }
+        students.remove(studentNameToRemove);
     }
 
     /**
@@ -67,8 +68,8 @@ public class Students {
      */
     public ArrayList<String> getAllStudentNamesAsStringArrayList() {
         ArrayList<String> allStudentNamesAsStringArrayList = new ArrayList<>();
-        for (Student student : students) {
-            String currentLessonName = student.toNameString();
+        for (StudentName studentName : students) {
+            String currentLessonName = studentName.toString();
             allStudentNamesAsStringArrayList.add(currentLessonName);
         }
         return allStudentNamesAsStringArrayList;
@@ -87,8 +88,8 @@ public class Students {
         StringBuilder str = new StringBuilder();
         int counter = 1;
 
-        for (Student student : students) {
-            str.append("\n").append(counter).append(".  ").append(student.toNameString());
+        for (StudentName studentName : students) {
+            str.append("\n").append(counter).append(".  ").append(studentName);
             counter++;
         }
 

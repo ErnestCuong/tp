@@ -157,7 +157,7 @@ public class ModelManager implements Model {
     public void deleteLessonFromStudents(Lesson lesson) {
         for (Student student : studentBook.getStudentList()) {
             if (student.hasLesson(lesson)) {
-                student.getLessons().deleteLesson(lesson);
+                student.getLessons().removeLesson(lesson);
             }
         }
         studentBook.refreshStudentBook();

@@ -11,7 +11,7 @@ import tutoraid.model.student.exceptions.DuplicateStudentLessonsException;
 import tutoraid.model.student.exceptions.LessonNotFoundInStudentException;
 
 /**
- * Represents a student's list of progress in TutorAid.
+ * Represents a student's list of names of attended lessons in TutorAid.
  */
 public class Lessons {
 
@@ -29,9 +29,9 @@ public class Lessons {
     }
 
     /**
-     * Constructs a {@code Lessons}.
+     * Constructs a {@code Lessons} with existing lesson names.
      *
-     * @param lessonNames an arraylist of lesson names
+     * @param lessonNames an arraylist of strings that are valid lesson names
      */
     public Lessons(ArrayList<String> lessonNames) {
         requireNonNull(lessonNames);
@@ -46,12 +46,13 @@ public class Lessons {
     }
 
     /**
-     * Checks if a given string ArrayList is a valid list of lesson names.
+     * Checks if a given String ArrayList is a valid list of lesson names.
      *
      * @param lessonNames an ArrayList of strings
      * @return true if all elements are valid lesson names, false otherwise
      */
     public static boolean isValidLessonNames(ArrayList<String> lessonNames) {
+        requireNonNull(lessonNames);
         for (String lessonName : lessonNames) {
             if (lessonName == null || !LessonName.isValidLessonName(lessonName)) {
                 return false;
@@ -62,10 +63,10 @@ public class Lessons {
     }
 
     /**
-     * Adds a new lesson name.
+     * Adds the name of a lesson to this list.
      *
-     * @param toAdd the lesson to be added
-     * @throws DuplicateStudentLessonsException if the lesson is already in the list
+     * @param toAdd the lesson whose name is to be added
+     * @throws DuplicateStudentLessonsException if the lesson's name is already in the list
      */
     public void addLesson(Lesson toAdd) {
         requireNonNull(toAdd);
@@ -77,12 +78,12 @@ public class Lessons {
     }
 
     /**
-     * Deletes a lesson.
+     * Removes the name of a lesson from this list.
      *
-     * @param toDelete the lesson to be deleted
-     * @throws LessonNotFoundInStudentException if the lesson is not in the list
+     * @param toDelete the lesson whose name is to be removed from this list
+     * @throws LessonNotFoundInStudentException if the lesson's name is not in the list
      */
-    public void deleteLesson(Lesson toDelete) {
+    public void removeLesson(Lesson toDelete) {
         requireNonNull(toDelete);
         LessonName lessonNameToDelete = toDelete.getLessonName();
         if (!lessons.contains(lessonNameToDelete)) {
@@ -92,14 +93,15 @@ public class Lessons {
     }
 
     /**
-     * Returns boolean if lesson is in lessons or not.
+     * Checks if this list has the name of a lesson.
      */
     public boolean hasLesson(Lesson lesson) {
+        requireNonNull(lesson);
         return lessons.contains(lesson.getLessonName());
     }
 
     /**
-     * Returns a string Array that contains all the lesson names in the correct order.
+     * Returns a String Array that contains all the lesson names in the correct order.
      */
     public ArrayList<String> getAllLessonNamesAsStringArrayList() {
         ArrayList<String> allLessonNamesAsStringArrayList = new ArrayList<>();

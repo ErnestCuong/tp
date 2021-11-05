@@ -18,6 +18,7 @@ import tutoraid.model.lesson.Price;
 import tutoraid.model.lesson.Students;
 import tutoraid.model.lesson.Timing;
 import tutoraid.model.student.Student;
+import tutoraid.model.student.StudentName;
 
 /**
  * Parses input arguments and creates a new AddLessonCommand object
@@ -50,7 +51,7 @@ public class AddLessonCommandParser implements Parser<AddLessonCommand> {
                 argMultimap.getValue(PREFIX_LESSON_PRICE).orElse(""));
         Timing timing = ParserUtil.parseTiming(
                 argMultimap.getValue(PREFIX_LESSON_TIMING).orElse(""));
-        Students students = new Students(new ArrayList<Student>());
+        Students students = new Students(new ArrayList<StudentName>());
 
         Lesson lesson = new Lesson(lessonName, capacity, price, students, timing);
         return new AddLessonCommand(lesson);

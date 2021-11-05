@@ -63,12 +63,12 @@ public class SampleDataUtil {
     }
 
     public static Lesson[] getSampleLessons() {
-        ArrayList<Student> sampleStudentInLesson = new ArrayList<>();
+        ArrayList<StudentName> sampleStudentInLesson = new ArrayList<>();
         Student sampleStudent = new Student(new StudentName("Alex Yeoh"), new Phone("87438807"),
                 new ParentName("Mr Yeoh"), new Phone("93726483"),
                 new ProgressList(),
                 new Lessons(new ArrayList<>(Arrays.asList("Maths 1"))));
-        sampleStudentInLesson.add(sampleStudent);
+        sampleStudentInLesson.add(sampleStudent.getStudentName());
 
         return new Lesson[] {
             new Lesson(new LessonName("Maths 1"), new Capacity("50"),
