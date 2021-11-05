@@ -1,7 +1,6 @@
 package tutoraid.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static tutoraid.model.Model.PREDICATE_SHOW_ALL_LESSONS;
 
 import java.util.List;
 
@@ -9,7 +8,6 @@ import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
 import tutoraid.model.Model;
-import tutoraid.model.lesson.Lesson;
 import tutoraid.model.student.Progress;
 import tutoraid.model.student.Student;
 

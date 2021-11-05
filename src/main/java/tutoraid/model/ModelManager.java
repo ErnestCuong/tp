@@ -6,7 +6,6 @@ import static tutoraid.ui.DetailLevel.LOW;
 import static tutoraid.ui.DetailLevel.MED;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
