@@ -3,9 +3,6 @@ package tutoraid.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static tutoraid.logic.parser.CliSyntax.PREFIX_LESSON;
 import static tutoraid.logic.parser.CliSyntax.PREFIX_STUDENT;
-import static tutoraid.ui.DetailLevel.HIGH;
-
-import java.util.List;
 
 import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;

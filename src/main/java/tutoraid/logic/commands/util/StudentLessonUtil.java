@@ -1,15 +1,15 @@
 package tutoraid.logic.commands.util;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
 import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
 import tutoraid.model.Model;
 import tutoraid.model.lesson.Lesson;
 import tutoraid.model.student.Student;
-
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
 
 public class StudentLessonUtil {
     /**

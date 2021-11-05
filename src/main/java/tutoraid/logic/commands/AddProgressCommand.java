@@ -10,14 +10,8 @@ import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
 import tutoraid.model.Model;
 import tutoraid.model.lesson.Lesson;
-import tutoraid.model.student.Lessons;
-import tutoraid.model.student.ParentName;
-import tutoraid.model.student.Phone;
 import tutoraid.model.student.Progress;
-import tutoraid.model.student.ProgressList;
 import tutoraid.model.student.Student;
-import tutoraid.model.student.StudentName;
-
 
 /**
  * Adds progress string to an exiting student in TutorAid. Updates the progress if one already exists.
