@@ -230,6 +230,7 @@ public class AddLessonCommandTest {
         public void viewList(DetailLevel detailLevel) {
             throw new AssertionError("This method should not be called.");
         }
+
     }
 
     /**

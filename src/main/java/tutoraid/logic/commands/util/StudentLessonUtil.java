@@ -45,20 +45,4 @@ public class StudentLessonUtil {
         }
         return lastShownLessonList.get(lessonIndex.getZeroBased());
     }
-
-    /**
-     * Updates the link between students and lessons because restarting TutorAid disconnects them.
-     *
-     * @param model the Model for TutorAid
-     * @param student the student that we want to update the link
-     * @param lesson the lesson that we want to update the link
-     */
-    public static void updateStudentAndLessonLinks(Model model, Student student, Lesson lesson) {
-        model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        model.updateFilteredStudentList(Model.PREDICATE_SHOW_ALL_STUDENTS);
-        List<Student> studentList = model.getFilteredStudentList();
-        List<Lesson> lessonList = model.getFilteredLessonList();
-        Lesson.updateStudentLessonLink(lessonList, student, student);
-        Student.updateStudentLessonLink(studentList, lesson, lesson);
-    }
 }

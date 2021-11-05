@@ -6,6 +6,7 @@ import static tutoraid.ui.DetailLevel.LOW;
 import static tutoraid.ui.DetailLevel.MED;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -46,6 +47,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredStudents = new FilteredList<>(this.studentBook.getStudentList());
         filteredLessons = new FilteredList<>(this.lessonBook.getLessonList());
+        reconnectStudentLessonLinksUponRestarting();
     }
 
     public ModelManager() {
@@ -271,4 +273,31 @@ public class ModelManager implements Model {
                 && filteredLessons.equals(other.filteredLessons);
     }
 
+    //=========== Filtered Student List Accessors =============================================================
+
+    /**
+     * Reconnects the link between students and lessons when restarting TutorAid.
+     */
+    public void reconnectStudentLessonLinksUponRestarting() {
+        updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
+        updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
+
+        for (Student student : studentBook.getStudentList()) {
+            reconnectOneStudentToTheirLesson(student);
+        }
+    }
+
+    /**
+     * Reconnects the links between one student and his/her attended lessons.
+     *
+     * @param student the student to be reconnected
+     */
+    private void reconnectOneStudentToTheirLesson(Student student) {
+        for (Lesson lesson : lessonBook.getLessonList()) {
+            if (lesson.hasStudent(student)) {
+                lesson.removeStudent(student);
+                lesson.addStudent(student);
+            }
+        }
+    }
 }

@@ -55,8 +55,6 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
         Student studentToRemoveFromLesson = StudentLessonUtil.getStudent(model, studentIndex);
         Lesson lessonToRemoveFromStudent = StudentLessonUtil.getLesson(model, lessonIndex);
 
-        StudentLessonUtil.updateStudentAndLessonLinks(model, studentToRemoveFromLesson, lessonToRemoveFromStudent);
-
         if (!studentToRemoveFromLesson.hasLesson(lessonToRemoveFromStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_NOT_IN_LESSON);
         }

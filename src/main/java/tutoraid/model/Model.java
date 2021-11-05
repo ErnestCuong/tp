@@ -169,5 +169,4 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
-
 }

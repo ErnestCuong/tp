@@ -56,8 +56,6 @@ public class AddStudentToLessonCommand extends AddCommand {
         Student studentToAddToLesson = StudentLessonUtil.getStudent(model, studentIndex);
         Lesson lessonToAddToStudent = StudentLessonUtil.getLesson(model, lessonIndex);
 
-        StudentLessonUtil.updateStudentAndLessonLinks(model, studentToAddToLesson, lessonToAddToStudent);
-
         if (studentToAddToLesson.hasLesson(lessonToAddToStudent)) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_ALREADY_ATTEND_LESSON);
         }

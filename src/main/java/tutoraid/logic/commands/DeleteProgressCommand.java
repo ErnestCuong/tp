@@ -43,15 +43,11 @@ public class DeleteProgressCommand extends DeleteCommand {
 
         List<Student> lastShownStudentList = model.getFilteredStudentList();
 
-        model.updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
-        List<Lesson> lessonList = model.getFilteredLessonList();
-
         if (targetIndex.getZeroBased() >= lastShownStudentList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
         }
 
         Student studentToEdit = lastShownStudentList.get(targetIndex.getZeroBased());
-        Lesson.updateStudentLessonLink(lessonList, studentToEdit, studentToEdit);
 
         if (studentToEdit.isProgressListEmpty()) {
             throw new CommandException(Messages.MESSAGE_INVALID_NO_PROGRESS_TO_DELETE);
