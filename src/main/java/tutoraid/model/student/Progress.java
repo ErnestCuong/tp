@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import tutoraid.commons.util.AppUtil;
 
 /**
- * Represents a student's progress in TutorAid.
+ * Represents a student's progress entry in TutorAid.
  */
 public class Progress {
 
@@ -36,7 +36,7 @@ public class Progress {
     }
 
     /**
-     * Checks if a given string is a valid progress.
+     * Checks if a given string is a valid progress description.
      *
      * @return true if the string is not empty, false otherwise
      */

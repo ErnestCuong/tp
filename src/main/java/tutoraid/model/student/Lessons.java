@@ -12,7 +12,7 @@ import tutoraid.model.student.exceptions.DuplicateStudentLessonsException;
 import tutoraid.model.student.exceptions.LessonNotFoundInStudentException;
 
 /**
- * Represents a student's list of names of attended lessons in TutorAid.
+ * Represents a student's list of lessons in TutorAid.
  */
 public class Lessons {
 

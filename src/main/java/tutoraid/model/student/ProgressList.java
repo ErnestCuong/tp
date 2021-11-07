@@ -8,7 +8,7 @@ import tutoraid.commons.util.AppUtil;
 import tutoraid.model.student.exceptions.EmptyProgressListException;
 
 /**
- * Represents a student's list of progress in TutorAid.
+ * Represents a student's list of progress entries in TutorAid.
  */
 public class ProgressList {
 
@@ -40,9 +40,7 @@ public class ProgressList {
             String currentProgressDescription = progressListInStringArrayList.get(i);
             Progress currentProgress = new Progress(currentProgressDescription);
 
-            if (!currentProgress.isEmptyProgress()) {
-                this.addProgress(currentProgress);
-            }
+            this.addProgress(currentProgress);
         }
     }
 
@@ -73,9 +71,9 @@ public class ProgressList {
     }
 
     /**
-     * Adds a new progress.
+     * Adds a new progress entry to this list.
      *
-     * @param progressToAdd the progress to be added
+     * @param progressToAdd the progress entry to be added
      */
     public void addProgress(Progress progressToAdd) {
         requireNonNull(progressToAdd);
@@ -89,7 +87,7 @@ public class ProgressList {
     }
 
     /**
-     * Deletes the latest progress. The list of progress must not be empty.
+     * Deletes the latest progress entry from this list. The list of progress entries must not be empty.
      */
     public Progress deleteLatestProgress() {
         if (progressList.size() == 0) {
@@ -100,7 +98,8 @@ public class ProgressList {
     }
 
     /**
-     * Returns the latest progress if there is at least one progress, else returns an EMPTY_PROGRESS.
+     * Returns the latest progress entry if there is at least one progress entry in this list,
+     * else returns an EMPTY_PROGRESS.
      */
     public Progress getLatestProgress() {
         return progressList.size() == 0
@@ -109,7 +108,7 @@ public class ProgressList {
     }
 
     /**
-     * Returns a string Array that contains all the progress description in the correct order.
+     * Returns a string Array that contains all the progress descriptions in the correct order.
      */
     public ArrayList<String> getAllProgressAsStringArrayList() {
         ArrayList<String> allProgressAsStringArrayList = new ArrayList<>();
@@ -121,7 +120,7 @@ public class ProgressList {
     }
 
     /**
-     * Checks if there is any progress entries in the list.
+     * Checks if this list of progress entries is empty.
      *
      * @return True if there is no progress entry in the list.
      */
