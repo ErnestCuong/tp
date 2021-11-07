@@ -6,6 +6,8 @@ import static tutoraid.ui.DetailLevel.LOW;
 import static tutoraid.ui.DetailLevel.MED;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -23,8 +25,8 @@ import tutoraid.ui.UiManager;
  * Represents the in-memory model of the student book data.
  */
 public class ModelManager implements Model {
+    private static final List<Student> allStudents = new ArrayList<>();
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-
     private final StudentBook studentBook;
     private final LessonBook lessonBook;
     private final UserPrefs userPrefs;
@@ -46,11 +48,15 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredStudents = new FilteredList<>(this.studentBook.getStudentList());
         filteredLessons = new FilteredList<>(this.lessonBook.getLessonList());
-        reconnectStudentLessonLinksUponRestarting();
+        allStudents.addAll(studentBook.getStudentList());
     }
 
     public ModelManager() {
         this(new StudentBook(), new LessonBook(), new UserPrefs());
+    }
+
+    public static List<Student> getAllStudents() {
+        return allStudents;
     }
 
     //=========== UserPrefs ==================================================================================
@@ -104,6 +110,8 @@ public class ModelManager implements Model {
     @Override
     public void setStudentBook(ReadOnlyStudentBook studentBook) {
         this.studentBook.resetData(studentBook);
+        allStudents.clear();
+        allStudents.addAll(studentBook.getStudentList());
     }
 
     @Override
@@ -120,12 +128,15 @@ public class ModelManager implements Model {
     @Override
     public void deleteStudent(Student target) {
         studentBook.removeStudent(target);
+        allStudents.remove(target);
+        updateFilteredLessonList(PREDICATE_SHOW_ALL_LESSONS);
     }
 
     @Override
     public void addStudent(Student student) {
         studentBook.addStudent(student);
         updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
+        allStudents.add(student);
     }
 
     @Override
@@ -141,25 +152,19 @@ public class ModelManager implements Model {
         filteredStudents.setPredicate(student -> student.equals(targetStudent));
         filteredLessons.setPredicate(lesson ->
                 targetStudent.getLessons().getAllLessonNamesAsStringArrayList().contains(lesson.nameAsString()));
-        UiManager.showFullDetails();
+        UiManager.showDetails(HIGH);
     }
 
     @Override
     public void viewList(DetailLevel detailLevel) {
-        if (detailLevel == HIGH) {
-            UiManager.showFullDetails();
-        } else if (detailLevel == MED) {
-            UiManager.showMediumDetails();
-        } else if (detailLevel == LOW) {
-            UiManager.showMinimalDetails();
-        }
+        UiManager.showDetails(detailLevel);
     }
 
     @Override
     public void deleteLessonFromStudents(Lesson lesson) {
         for (Student student : studentBook.getStudentList()) {
             if (student.hasLesson(lesson)) {
-                student.getLessons().removeLesson(lesson);
+                student.getLessons().deleteLesson(lesson);
             }
         }
         updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
@@ -205,8 +210,8 @@ public class ModelManager implements Model {
         requireNonNull(targetLesson);
         filteredLessons.setPredicate(lesson -> lesson.equals(targetLesson));
         filteredStudents.setPredicate(student ->
-                targetLesson.getStudents().getAllStudentNamesAsStringArrayList().contains(student.toNameString()));
-        UiManager.showFullDetails();
+                targetLesson.getStudents().hasStudent(student));
+        UiManager.showDetails(MED);
     }
 
     @Override

@@ -174,6 +174,34 @@ Welcome to TutorAid's beginner's tutorial! Here, you will learn how you can use 
 If this is your first time launching TutorAid, you will be able to see that some sample data has been provided to you. For this tutorial, let's assume that you tutor the student(s) 
 shown in the Student Panel and that you offer the lesson(s) shown in the Lesson Panel. 
 
+### Step 1: Adding a student
+{:.no_toc}
+First, imagine a new student, John Yeo, has just approached you for your tutoring services, and you wish to record down his students details in TutorAid so that you can keep track of his details and refer to them when needed. Furthermore, John Yeo has also given you the following details:
+* John's phone number: 98765432
+* John's parent's name: Mary Yeo
+* John's parent's phone number: 81234567
+
+You can then easily add his data to TutorAid by following the steps below:
+1. Key in `add -s sn/John Yeo sp/98765432 pn/Mary Yeo pp/81234567` into the command box. 
+> :bulb: If John did not provide you with his phone number, parent's name and parent's phone number, you can still add his student details to TutorAid by keying in `add -s sn/John Yeo` into the command box, since those are optional details for you to include in the command.
+2. Upon pressing enter, all specified details belonging to John Yeo will be added and stored in TutorAid.
+
+Now, the Student Panel will be updated accordingly with John's details. If you do not see John's details on your screen, you can either scroll down the Student Panel to find his details, or enter the command `find -s John Yeo` to display only his details in the Student Panel.
+
+### Step 2: Adding a lesson
+{:.no_toc}
+Now that you've added your first student (and perhaps a few others too), let's add some Lessons to TutorAid. In this tutorial, we will be adding a lesson named History 1 into TutorAid by performing the steps below:
+
+1. Type `add -l n/History 1` into the command box and press enter.
+
+![](images/tutorialAddLesson1.png)
+
+2. Observe how History 1 appears in the Lesson Panel.
+3. We've added the lesson successfully, but we can continue by adding more details, such as its timing (10AM - 11AM on Mondays), price ($125.90) and capacity (10). Assuming that History 1 is the only lesson in your Lesson Panel, type the command `edit -l 1 t/10AM - 11AM on Mondays c/10`. Press Enter on your keyboard.
+4. Observe how the capacity and timing now show what you have requested.
+> :bulb: If you know what details you wish to add from the beginning, you can type `add -l n/History 1 c/10 t/10 AM - 11AM on Mondays p/125.90` to enter these details in a single command.
+5. That's it, you've added your first lesson. If you need more information, you can check out the detailed documentation of the [add lesson](#adding-a-lesson-add--l) and [edit lesson](#editing-a-lesson-edit--l) commands.
+
 ### Step 4: Adding a progress note for a student
 {:.no_toc}
 Now, imagine you have ended your 'Maths 1' lesson. You realised that one of your students, Alex Yeoh, seems to struggle with the topic 'Vectors', and you wish to take 
@@ -306,6 +334,9 @@ Format: `add -p STUDENT_INDEX PROGRESS`
 Examples:
 * `list` followed by `add -p 2 completed homework` adds `completed homework` to the 2nd student displayed in the Student Panel.
 
+> :bulb: Using this command will update the student panel to only display the edited student.
+
+
 ### Deleting progress from a student: `del -p`
 {:.no_toc}
 Removes a progress note from the student at the specified student index.
@@ -319,6 +350,8 @@ Format: `del -p STUDENT_INDEX`
 Examples:
 * `list` followed by `del -p 2` deletes the progress of the 2nd student displayed in the Student Panel.
 
+> :bulb: Using this command will update the student panel to only display the edited student.
+
 ## 5.2 Lesson Commands
 
 ### Adding a lesson: `add -l`
@@ -329,10 +362,9 @@ Format: `add -l n/LESSON_NAME [c/LESSON_CAPACITY] [p/LESSON_PRICE] [t/LESSON_TIM
 
 * The lesson's capacity, price and timing are optional details for you to include.
 * The lesson name should only contain alphanumeric characters and spaces.
-* Duplicate lessons cannot be added. A lesson counts as a duplicate if it has the same lesson name as an existing lesson. Letter case is ignored when determining if two lesson names are the same.
 * If provided, the lesson's capacity must be a **positive integer** 1, 2, 3, …
 * If provided, the lesson's price must be a **non-negative number** with either 0 or 2 decimal places. Examples of a valid price are `80` and `85.50`.
-* The lesson's timing can be anything you want (other than hyphens and slashes) - you could use it to remind yourself what time your lesson is, but you can use this space for any remarks or reminders you may have.
+* The lesson's timing can be anything you want - you could use it to remind yourself what time your lesson is, but you can use this space for any remarks or reminders you may have.
 
 Examples:
 * `add -l n/P6 Maths c/20 p/80 t/Monday 1200-1400` adds a lesson with name `P6 Maths`, capacity of `20 students`, price of `$80` and timing `Monday 1200-1400`.
@@ -362,7 +394,7 @@ Format: `edit -l LESSON_INDEX [n/LESSON_NAME] [c/LESSON_CAPACITY] [p/LESSON_PRIC
 * If provided, the lesson name should only contain alphanumeric characters and spaces.
 * If provided, the lesson's capacity must be a **positive integer** 1, 2, 3, …
 * If provided, the lesson's price must be a **non-negative number** with either 0 or 2 decimal places. Examples of a valid price are `80` and `85.50`.
-* * The lesson's timing can be anything you want (other than hyphens and slashes) - you could use it to remind yourself what time your lesson is, but you can use this space for any remarks or reminders you may have.
+* The lesson's timing can be anything you want - you could use it to remind yourself what time your lesson is, but you can use this space for any remarks or reminders you may have.
 * At least 1 out of 4 optional fields must be provided.
 
 > :bulb: After you run this command, the Student Panel will only show students who are taking this lesson. Don't worry: you can easily find your students again using the [`list -a`](#listing-all-students-and-lessons-list) command.
@@ -412,9 +444,10 @@ Examples:
 * `list` displays all students and lessons in TutorAid by only showing their names and list indexes.
 * `list -a` displays all students and lessons in TutorAid while showing all of their fields' data.
 
-### Adding students to lessons: `add -sl`
+
+### Adding student(s) to lesson(s): `add -sl`
 {:.no_toc}
-Adds students to lessons.
+Tells TutorAid that a student attends a particular lesson.
 
 Format: `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`
 
@@ -423,24 +456,23 @@ Format: `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`
 * The index must be a **positive integer** 1, 2, 3, ...
 
 Examples:
-* `add -sl s/1 2 3 l/1 2` add students with index 1, 2, 3 into lessons with index 1, 2.
+* `add -sl s/1 2 3 l/2` adds the students with indexes 1, 2 and 3 into the lesson with index 2.
 
-> :exclamation: All of these students must not be attending any of the lessons provided for this command to work.
+> :bulb: Some lessons have capacities - and the command won't work if any of the lessons cannot accommodate all the students. (Lessons without capacity information will have no restriction on their capacity.)
 
-### Deleting students from lessons: `del -sl`
+### Deleting student(s) from lesson(s): `del -sl`
 {:.no_toc}
-Deletes students from lessons.
+Tells TutorAid that a student no longer attends a particular lesson.
 
 Format: `del -sl s/STUDENT_INDEX... l/LESSON_INDEX...`
 
 * Deletes the students at the specified student indexes from the lessons at the specified lesson indexes.
 * The index refers to the index number shown in the displayed student list and lesson list.
 * The index must be a **positive integer** 1, 2, 3, ...
+* Multiple indexes are allowed for both students and lessons if you would like to remove multiple students from multiple lessons at one go.
 
 Examples:
-* `del -sl s/2 3 l/1 2 3` deletes students with index 2, 3 from lessons with index 1, 2, 3.
-
-> :exclamation: All of these students must be attending all the lessons provided for this command to work.
+* `del -sl s/1 2 3 l/1` deletes the students with indexes 1, 2 and 3 from the lesson with index 1.
 
 ## 5.4 Other Commands
 
@@ -472,7 +504,7 @@ TutorAid data are saved in the hard disk automatically after any command that ch
 
 ### Editing the data file
 {:.no_toc}
-TutorAid data are saved as a JSON file `[JAR file location]/data/tutoraid.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorAid student data are saved as a JSON file `[JAR file location]/data/tutorAidStudents.json`, while TutorAid lesson data are saved as a JSON file `[JAR file location]/data/tutorAidLessons.json`. Advanced users are welcome to update data directly by editing any of the two data files.
 
 > :exclamation: **If your changes to the data file makes its format invalid, TutorAid will discard all data and start with an empty data file at the next run.**
 
@@ -487,7 +519,7 @@ TutorAid data are saved as a JSON file `[JAR file location]/data/tutoraid.json`.
 # 7. FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorAid home folder.
+**A**: Install the app in the other computer and overwrite the empty data files it creates with the files that contains the data of your previous TutorAid home folder.
 
 ***
 
@@ -523,8 +555,8 @@ Action | Format and Examples
 Action | Format and Examples
 --------|------------------
 **[List](#listing-all-students-and-lessons-list)** | `list [-a]`<br>e.g., `list`, `list -a`
-**[Add students to lessons](#adding-students-to-lessons-add--sl)** | `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`add -sl s/1 2 3 l/1 2`
-**[Delete students from lessons](#deleting-students-from-lessons-del--sl)** | `del -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`del -sl s/2 3 l/1 2 3`
+**[Add student(s) to lesson(s)](#adding-students-to-lessons-add--sl)** | `add -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`add -sl s/1 2 3 l/1 2`
+**[Delete student(s) from lesson(s)](#deleting-students-from-lessons-del--sl)** | `del -sl s/STUDENT_INDEX... l/LESSON_INDEX...`<br>e.g.,`del -sl s/2 3 l/1 2 3`
 
 ### 8.4 Other commands
 
