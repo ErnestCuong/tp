@@ -81,7 +81,7 @@ public class AddStudentToLessonCommand extends AddCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         StringBuilder result = new StringBuilder();
-        checkIndexesAreValid(model, lessonIndexes, studentIndexes);
+        StudentLessonUtil.checkIndexesAreValid(model, lessonIndexes, studentIndexes);
         checkLessonsHaveCapacity(model, lessonIndexes, studentIndexes);
         for (Index lessonIndex : lessonIndexes) {
             for (Index studentIndex : studentIndexes) {
@@ -93,22 +93,6 @@ public class AddStudentToLessonCommand extends AddCommand {
         model.viewList(MED);
 
         return new CommandResult(result.toString());
-    }
-
-    private void checkIndexesAreValid(Model model, ArrayList<Index> lessonIndexes, ArrayList<Index> studentIndexes)
-            throws CommandException {
-        List<Student> lastShownStudentList = model.getFilteredStudentList();
-        List<Lesson> lastShownLessonList = model.getFilteredLessonList();
-        int maxStudentIndex = studentIndexes.stream().max(
-                Comparator.comparingInt(Index::getZeroBased)).get().getZeroBased();
-        int maxLessonIndex = lessonIndexes.stream().max(
-                Comparator.comparingInt(Index::getZeroBased)).get().getZeroBased();
-        if (maxStudentIndex >= lastShownStudentList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
-        }
-        if (maxLessonIndex >= lastShownLessonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
-        }
     }
 
     private void checkLessonsHaveCapacity(Model model, ArrayList<Index> lessonIndexes, ArrayList<Index> studentIndexes)

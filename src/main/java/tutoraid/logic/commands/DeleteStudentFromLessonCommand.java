@@ -80,7 +80,7 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         StringBuilder result = new StringBuilder();
-        checkIndexesAreValid(model, lessonIndexes, studentIndexes);
+        StudentLessonUtil.checkIndexesAreValid(model, lessonIndexes, studentIndexes);
         for (Index lessonIndex : lessonIndexes) {
             for (Index studentIndex : studentIndexes) {
                 result.append(executeSingle(model, studentIndex, lessonIndex));
@@ -91,21 +91,5 @@ public class DeleteStudentFromLessonCommand extends DeleteCommand {
         model.viewList(MED);
 
         return new CommandResult(result.toString());
-    }
-
-    private void checkIndexesAreValid(Model model, ArrayList<Index> lessonIndexes, ArrayList<Index> studentIndexes)
-            throws CommandException {
-        List<Student> lastShownStudentList = model.getFilteredStudentList();
-        List<Lesson> lastShownLessonList = model.getFilteredLessonList();
-        int maxStudentIndex = studentIndexes.stream().max(
-                Comparator.comparingInt(Index::getZeroBased)).get().getZeroBased();
-        int maxLessonIndex = lessonIndexes.stream().max(
-                Comparator.comparingInt(Index::getZeroBased)).get().getZeroBased();
-        if (maxStudentIndex >= lastShownStudentList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
-        }
-        if (maxLessonIndex >= lastShownLessonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_LESSON_DISPLAYED_INDEX);
-        }
     }
 }
