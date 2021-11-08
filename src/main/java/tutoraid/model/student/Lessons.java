@@ -3,11 +3,8 @@ package tutoraid.model.student;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import tutoraid.model.ReadOnlyLessonBook;
 import tutoraid.model.lesson.Lesson;
-import tutoraid.model.lesson.exceptions.LessonNotFoundException;
 import tutoraid.model.student.exceptions.DuplicateStudentLessonsException;
 import tutoraid.model.student.exceptions.LessonNotFoundInStudentException;
 
@@ -30,26 +27,7 @@ public class Lessons {
     }
 
     /**
-     * Constructor for the Lessons class for a Student.
-     *
-     * @param lessonNames Names of the lessons that the student is attending
-     * @param lessonBook List of Lesson objects to be linked to the student
-     */
-    public Lessons(ArrayList<String> lessonNames, ReadOnlyLessonBook lessonBook) {
-        this.lessons = new ArrayList<>();
-        List<Lesson> lessonList = lessonBook.getLessonList();
-        for (String lessonName : lessonNames) {
-            Lesson lesson = lessonList
-                    .stream()
-                    .filter(l -> l.toNameString().equals(lessonName))
-                    .findFirst()
-                    .orElseThrow(LessonNotFoundException::new);
-            lessons.add(lesson);
-        }
-    }
-
-    /**
-     * Adds the name of a lesson to this list.
+     * Adds a lesson to this list.
      *
      * @param lesson the lesson to be added
      * @throws DuplicateStudentLessonsException if the lesson is already in the list
@@ -63,7 +41,7 @@ public class Lessons {
     }
 
     /**
-     * Removes the name of a lesson from this list.
+     * Removes a lesson from this list.
      *
      * @param lesson the lesson to be deleted
      * @throws LessonNotFoundInStudentException if the lesson is not in the list
@@ -77,14 +55,14 @@ public class Lessons {
     }
 
     /**
-     * Checks if this list has the name of a lesson.
+     * Checks if this list has a lesson.
      */
     public boolean hasLesson(Lesson lesson) {
         return lessons.contains(lesson);
     }
 
     /**
-     * Returns a String Array that contains all the lesson names in the correct order.
+     * Returns a String Array that contains all the lesson names of the lessons in this list in the correct order.
      */
     public ArrayList<String> getAllLessonNamesAsStringArrayList() {
         ArrayList<String> allLessonNamesAsStringArrayList = new ArrayList<>();
