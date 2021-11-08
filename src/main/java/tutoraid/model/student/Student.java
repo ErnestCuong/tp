@@ -1,6 +1,5 @@
 package tutoraid.model.student;
 
-import java.util.List;
 import java.util.Objects;
 
 import tutoraid.commons.util.CollectionUtil;
