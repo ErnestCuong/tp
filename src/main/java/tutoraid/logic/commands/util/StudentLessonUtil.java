@@ -11,6 +11,9 @@ import tutoraid.model.Model;
 import tutoraid.model.lesson.Lesson;
 import tutoraid.model.student.Student;
 
+/**
+ * Contains utility method(s) used for student-lesson interactions.
+ */
 public class StudentLessonUtil {
     /**
      * Checks if the student indexes and the lesson indexes are valid.
