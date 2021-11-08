@@ -8,7 +8,9 @@ import tutoraid.commons.util.AppUtil;
 import tutoraid.model.student.exceptions.EmptyProgressListException;
 
 /**
- * Represents a student's list of progress entries in TutorAid.
+ * Represents a student's list of progress entries in TutorAid. Keeps track of at most 10 Progress objects
+ * per ProgressList. Adding a new Progress object will remove the oldest Progress object in this list before
+ * adding the new Progress object.
  */
 public class ProgressList {
 
