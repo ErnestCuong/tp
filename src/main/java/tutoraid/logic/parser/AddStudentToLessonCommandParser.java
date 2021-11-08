@@ -35,7 +35,7 @@ public class AddStudentToLessonCommandParser implements Parser<AddStudentToLesso
             throw new ParseException(String.format(
                     Messages.MESSAGE_INVALID_COMMAND_FORMAT, AddStudentToLessonCommand.MESSAGE_USAGE));
         }
-        
+
         ArrayList<Index> studentIndexes = ParserUtil.parseMultipleIndexes(
                 argMultimap.getValue(PREFIX_STUDENT).get());
         ArrayList<Index> lessonIndexes = ParserUtil.parseMultipleIndexes(
