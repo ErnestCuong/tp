@@ -184,7 +184,7 @@ Each `Lesson` and `Student` object consists of fields as shown in the class diag
 
 The `Storage` component,
 * can save students' data, lessons' data and user preference data in json format, and read them back into corresponding objects.
-* inherits from `TutorAidStudentStorage`, `TutorAidLessonStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* inherits from `TutorAidStudentStorage`, `TutorAidLessonStorage` and `UserPrefsStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
@@ -204,12 +204,11 @@ This section describes some noteworthy details on how certain features are imple
 This feature adds a student contact to TutorAid. A student contact consists of the student's name, student's contact number, the parent's name and parent's contact number. 
 
 The feature is mainly implemented by the following methods:
-* `AddStudentCommand::execute()` — Adds a `Student` object to TutorAid.
-  
-It is also additionally facilitated by the methods below:
-* `TutorAidParser#parseCommand()` — Checks for the command word that is required for the addition of a student 
-  contact.
-* `AddCommandParser#parse()` — Checks for the command flag that specifies the addition of a student contact.
+* `AddStudentCommand#execute()` — Adds a `Student` object to TutorAid.
+
+It is also additionally facilitated by these methods:
+* `TutorAidParser#parseCommand()` — Checks for the command word that is required for the addition of a student.
+* `AddCommandParser#parse()` — Checks for the command flag that specifies the addition of a student.
 * `AddStudentCommandParser#parse()` — Parses the individual arguments to create a `Student` object.
 * `ModelManager#addStudent()` — Represents the in-memory model of TutorAid's student book data.
 * `StudentBook#addStudent()` — Adds a student to TutorAid's student book.
