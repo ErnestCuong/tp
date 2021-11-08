@@ -45,15 +45,6 @@ public class Progress {
     }
 
     /**
-     * Checks if this progress is an empty progress.
-     *
-     * @return true if this progress is an empty progress, false otherwise
-     */
-    public boolean isEmptyProgress() {
-        return EMPTY_PROGRESS.equals(this);
-    }
-
-    /**
      * Returns the latest progress if there is at least one progress, else returns an EMPTY_PROGRESS.
      */
     public static Progress getEmptyProgress() {

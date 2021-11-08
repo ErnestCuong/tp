@@ -1,7 +1,5 @@
 package tutoraid.logic.commands.util;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -22,8 +20,8 @@ public class StudentLessonUtil {
      * @param studentIndexes an Arraylist of Index objects of students
      * @throws CommandException if any index(es) are invalid
      */
-    public static void checkIndexesAreValid(Model model, ArrayList<Index> lessonIndexes, ArrayList<Index> studentIndexes)
-            throws CommandException {
+    public static void checkIndexesAreValid(
+            Model model, ArrayList<Index> lessonIndexes, ArrayList<Index> studentIndexes) throws CommandException {
         List<Student> lastShownStudentList = model.getFilteredStudentList();
         List<Lesson> lastShownLessonList = model.getFilteredLessonList();
         int maxStudentIndex = studentIndexes.stream().max(

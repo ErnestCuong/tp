@@ -6,10 +6,8 @@ import static tutoraid.logic.parser.CliSyntax.PREFIX_STUDENT;
 import static tutoraid.ui.DetailLevel.MED;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import tutoraid.commons.core.Messages;
 import tutoraid.commons.core.index.Index;
 import tutoraid.logic.commands.exceptions.CommandException;
 import tutoraid.logic.commands.util.StudentLessonUtil;
